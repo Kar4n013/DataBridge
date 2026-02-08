@@ -7,10 +7,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import connection.CreateSheet;
 import pojo.Pojo;
 
 @SuppressWarnings("serial")
@@ -19,18 +19,21 @@ public class Index extends JFrame {
 	JTextField field1, field3, field4;
 	JPasswordField field2;
 	JButton button1, button2;
+
 	public Index() {
+		setSize(500, 500);
+		setLayout(null);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setLocationRelativeTo(null);
 
 		welcome = new JLabel("Welcome");
 		label1 = new JLabel("Enter username: ");
 		label2 = new JLabel("Enter password: ");
 		label3 = new JLabel("Enter database name: ");
-		label4 = new JLabel("Enter sheet name: ");
 
 		field1 = new JTextField(45);
 		field2 = new JPasswordField(45);
 		field3 = new JTextField(45);
-		field4 = new JTextField(45);
 
 		button1 = new JButton("Submit");
 		button2 = new JButton("Reset");
@@ -39,7 +42,6 @@ public class Index extends JFrame {
 		label1.setFont(new Font("Arial", Font.BOLD, 15));
 		label2.setFont(new Font("Arial", Font.BOLD, 15));
 		label3.setFont(new Font("Arial", Font.BOLD, 15));
-		label4.setFont(new Font("Arial", Font.BOLD, 15));
 
 		welcome.setBounds(180, 30, 200, 40);
 
@@ -52,9 +54,6 @@ public class Index extends JFrame {
 		label3.setBounds(60, 240, 170, 30);
 		field3.setBounds(230, 240, 150, 30);
 
-		label4.setBounds(60, 300, 170, 30);
-		field4.setBounds(230, 300, 150, 30);
-
 		button1.setBounds(120, 360, 100, 35);
 		button2.setBounds(240, 360, 100, 35);
 
@@ -65,40 +64,43 @@ public class Index extends JFrame {
 		add(field2);
 		add(label3);
 		add(field3);
-		add(label4);
-		add(field4);
 		add(button1);
 		add(button2);
 
 		button1.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (field1.getText().isEmpty() || new String(field2.getPassword()).isEmpty()
+						|| field3.getText().isEmpty()) {
+
+					JOptionPane.showMessageDialog(Index.this, "Wrong input", "Error", JOptionPane.ERROR_MESSAGE);
+
+					dispose();
+					return;
+				}
+
 				Pojo pojo = new Pojo();
 				pojo.setUser(field1.getText());
 				pojo.setPassword(new String(field2.getPassword()));
 				pojo.setDb_name(field3.getText());
+
 				TableSelectionPage page = new TableSelectionPage(pojo);
 				page.showTable();
-				CreateSheet.createSheet(field4.getText());
 			}
 		});
-		
+
 		button2.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				field1.setText("");
 				field2.setText("");
 				field3.setText("");
-				field4.setText("");
 			}
 		});
 
-		setSize(500, 500);
-		setLayout(null);
 		setVisible(true);
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 	}
 

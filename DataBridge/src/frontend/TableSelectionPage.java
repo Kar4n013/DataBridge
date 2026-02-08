@@ -29,16 +29,16 @@ public class TableSelectionPage extends JFrame {
 	JTextField field;
 	JButton button1, button2;
 	Pojo pojo;
+
 	public TableSelectionPage(Pojo pojo) {
 		this.pojo = pojo;
 	}
-	
+
 	public void showTable() {
 
-		setTitle("Table Selection");
-		setLayout(null);
-
 		setSize(800, 500);
+		setLayout(null);
+		setLocationRelativeTo(null);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		tables = new JLabel("Tables");
@@ -63,22 +63,22 @@ public class TableSelectionPage extends JFrame {
 
 		add(scrollPane);
 
-		try (Statement statement = GetConnection.getConnection(pojo.getDb_name(), pojo.getUser(), pojo.getPassword()).createStatement();
-				ResultSet resultSet = statement.executeQuery("SHOW TABLES")) {
+		try (Statement statement = GetConnection.getConnection(pojo.getDb_name(), pojo.getUser(), pojo.getPassword())
+				.createStatement(); ResultSet resultSet = statement.executeQuery("SHOW TABLES")) {
 
 			while (resultSet.next()) {
 				String name = resultSet.getString(1);
 				defaultTableModel.addRow(new Object[] { name });
 			}
-			
+
 			statement.close();
 			resultSet.close();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			javax.swing.JOptionPane.showMessageDialog(this, "Wrong input or database error.", "Error",
+					javax.swing.JOptionPane.ERROR_MESSAGE);
+			dispose();
 		}
-		
-		
 
 		label = new JLabel("Enter table name to export:");
 		label.setBounds(430, 120, 300, 30);
@@ -91,13 +91,21 @@ public class TableSelectionPage extends JFrame {
 
 		button2 = new JButton("Reset");
 		button2.setBounds(580, 210, 100, 35);
-		
+
 		button1.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				PreviewSheet previewSheet = new PreviewSheet(pojo);
 				previewSheet.previewSheet(field.getText());
+			}
+		});
+
+		button2.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				field.setText("");
 			}
 		});
 

@@ -4,7 +4,7 @@ public class Pojo {
 	private String db_name;
 	private String user;
 	private String password;
-
+	private String sheet_name;
 	public String getDb_name() {
 		return db_name;
 	}
@@ -27,5 +27,13 @@ public class Pojo {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getSheet_name() {
+		return sheet_name;
+	}
+
+	public void setSheet_name(String sheet_name) {
+		this.sheet_name = sheet_name;
 	}
 }
