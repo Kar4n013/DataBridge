@@ -1,10 +1,10 @@
 # DataBridge
 
 This project is a Java Swing desktop application that allows users to:
-1.View database tables
-2.Preview table data
-3.Select specific columns or all columns
-4.Export database records into an Excel sheet
+•View database tables
+•Preview table data
+•Select specific columns or all columns
+•Export database records into an Excel sheet
 
 The application connects to a database using JDBC and provides a simple GUI workflow for exporting data.
 
