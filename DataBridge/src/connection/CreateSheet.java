@@ -1,29 +1,36 @@
 package connection;
 
+import java.io.File;
 import java.io.FileOutputStream;
 
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class CreateSheet {
-	@SuppressWarnings("unused")
+
+    @SuppressWarnings("unused")
 	public static void createSheet(String name) {
-		try {
+        try {
+            File file = new File(name + ".xlsx");
 
-			XSSFWorkbook workbook = new XSSFWorkbook();
+            if (file.exists()) {
+                System.out.println("File already exists. Using existing file: " + file.getName());
+                return;
+            }
 
-			XSSFSheet sheet = workbook.createSheet("Sheet1");
+            XSSFWorkbook workbook = new XSSFWorkbook();
+            XSSFSheet sheet = workbook.createSheet("Sheet1");
 
-			FileOutputStream out = new FileOutputStream(name+".xlsx");
-			workbook.write(out);
+            FileOutputStream out = new FileOutputStream(file);
+            workbook.write(out);
 
-			out.close();
-			workbook.close();
+            out.close();
+            workbook.close();
 
-			System.out.println("Empty Excel sheet created successfully");
+            System.out.println("Empty Excel sheet created successfully");
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

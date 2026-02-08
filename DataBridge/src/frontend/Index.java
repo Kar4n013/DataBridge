@@ -11,26 +11,25 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import connection.CreateSheet;
-import connection.GetConnection;
+import pojo.Pojo;
 
 @SuppressWarnings("serial")
 public class Index extends JFrame {
 	JLabel welcome, label1, label2, label3, label4;
-	JTextField field1, field2, field4;
-	JPasswordField field3;
+	JTextField field1, field3, field4;
+	JPasswordField field2;
 	JButton button1, button2;
-
 	public Index() {
 
 		welcome = new JLabel("Welcome");
-		label1 = new JLabel("Enter database name: ");
-		label2 = new JLabel("Enter username: ");
-		label3 = new JLabel("Enter password: ");
+		label1 = new JLabel("Enter username: ");
+		label2 = new JLabel("Enter password: ");
+		label3 = new JLabel("Enter database name: ");
 		label4 = new JLabel("Enter sheet name: ");
 
 		field1 = new JTextField(45);
-		field2 = new JTextField(45);
-		field3 = new JPasswordField(45);
+		field2 = new JPasswordField(45);
+		field3 = new JTextField(45);
 		field4 = new JTextField(45);
 
 		button1 = new JButton("Submit");
@@ -47,13 +46,13 @@ public class Index extends JFrame {
 		label1.setBounds(60, 120, 170, 30);
 		field1.setBounds(230, 120, 150, 30);
 
-		label2.setBounds(60, 180, 150, 30);
+		label2.setBounds(60, 180, 170, 30);
 		field2.setBounds(230, 180, 150, 30);
 
-		label3.setBounds(60, 240, 150, 30);
+		label3.setBounds(60, 240, 170, 30);
 		field3.setBounds(230, 240, 150, 30);
 
-		label4.setBounds(60, 300, 150, 30);
+		label4.setBounds(60, 300, 170, 30);
 		field4.setBounds(230, 300, 150, 30);
 
 		button1.setBounds(120, 360, 100, 35);
@@ -72,10 +71,15 @@ public class Index extends JFrame {
 		add(button2);
 
 		button1.addActionListener(new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				GetConnection.getConnection(field1.getText(), field2.getText(), field3.getPassword());
+				Pojo pojo = new Pojo();
+				pojo.setUser(field1.getText());
+				pojo.setPassword(new String(field2.getPassword()));
+				pojo.setDb_name(field3.getText());
+				TableSelectionPage page = new TableSelectionPage(pojo);
+				page.showTable();
 				CreateSheet.createSheet(field4.getText());
 			}
 		});
